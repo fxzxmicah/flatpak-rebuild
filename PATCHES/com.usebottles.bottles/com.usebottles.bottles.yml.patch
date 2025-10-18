@@ -1,5 +1,5 @@
 diff --git OLD/com.usebottles.bottles/com.usebottles.bottles.yml NEW/com.usebottles.bottles/com.usebottles.bottles.yml
-index 9505345..b661bbb 100644
+index 9505345..80492cb 100644
 --- OLD/com.usebottles.bottles/com.usebottles.bottles.yml
 +++ NEW/com.usebottles.bottles/com.usebottles.bottles.yml
 @@ -1,9 +1,7 @@
@@ -69,3 +69,13 @@ index 9505345..b661bbb 100644
    - name: vkbasalt-cli
      buildsystem: simple
      build-commands:
+@@ -201,6 +174,9 @@ modules:
+       - name: vte
+         buildsystem: meson
+         config-opts:
++          - -D_systemd=false
++          - -Dglade=false
++          - -Dgtk3=false
+           - -Ddocs=false
+           - -Dvapi=false
+         sources:

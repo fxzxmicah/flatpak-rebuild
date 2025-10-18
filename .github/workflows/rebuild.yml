@@ -31,7 +31,7 @@ jobs:
       - name: Checkout main repo
         uses: actions/checkout@v4
 
-      - name: Checkout Flatpak source repo
+      - name: Checkout source repo
         uses: actions/checkout@v4
         with:
           repository: flathub/${{ matrix.app }}
@@ -46,23 +46,9 @@ jobs:
           done
         working-directory: src
 
-      - name: Build Flatpak
+      - name: Build flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: ${{ matrix.app }}.flatpak
           manifest-path: src/${{ matrix.app }}.yml
           cache-key: flatpak-builder-${{ matrix.app }}
-      #   run: |
-      #     manifest=$(find . -maxdepth 1 -type f \( -name "${{ matrix.app }}.yml" -o -name "${{ matrix.app }}.yaml" \) | head -n 1)
-
-      #     flatpak-builder --force-clean "$GITHUB_WORKSPACE/build" "$manifest" \
-      #       --repo="$GITHUB_WORKSPACE/repo" --ccache
-      #     flatpak build-bundle "$GITHUB_WORKSPACE/repo" \
-      #       "$GITHUB_WORKSPACE/${{ matrix.app }}.flatpak" "${{ matrix.app }}"
-      #   working-directory: src
-
-      # - name: Upload built Flatpak
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: ${{ matrix.app }}
-      #     path: "${{ matrix.app }}.flatpak"
