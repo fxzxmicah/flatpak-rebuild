@@ -1,0 +1,68 @@
+name: Build Flatpak Packages
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "PATCHES/**"
+
+jobs:
+  enumerate:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.enumerate.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: enumerate
+        run: |
+          echo "matrix=$(find PATCHES -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | jq -R . | jq -sc '{app: .}')" >> $GITHUB_OUTPUT
+
+  build:
+    needs: enumerate
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/flathub-infra/flatpak-github-actions:freedesktop-25.08
+      options: --privileged
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJson(needs.enumerate.outputs.matrix) }}
+
+    steps:
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+
+      - name: Checkout Flatpak source repo
+        uses: actions/checkout@v4
+        with:
+          repository: flathub/${{ matrix.app }}
+          path: src
+
+      - name: Apply patches
+        run: |
+          for patch in ../PATCHES/${{ matrix.app }}/*.patch; do
+            [ -f "${patch}" ] || continue
+            echo "Applying ${patch}"
+            git apply -p 2 "${patch}"
+          done
+        working-directory: src
+
+      - name: Build Flatpak
+        uses: flatpak/flatpak-github-actions/flatpak-builder@v6
+        with:
+          bundle: ${{ matrix.app }}.flatpak
+          manifest-path: src/${{ matrix.app }}.yml
+          cache-key: flatpak-builder-${{ matrix.app }}
+      #   run: |
+      #     manifest=$(find . -maxdepth 1 -type f \( -name "${{ matrix.app }}.yml" -o -name "${{ matrix.app }}.yaml" \) | head -n 1)
+
+      #     flatpak-builder --force-clean "$GITHUB_WORKSPACE/build" "$manifest" \
+      #       --repo="$GITHUB_WORKSPACE/repo" --ccache
+      #     flatpak build-bundle "$GITHUB_WORKSPACE/repo" \
+      #       "$GITHUB_WORKSPACE/${{ matrix.app }}.flatpak" "${{ matrix.app }}"
+      #   working-directory: src
+
+      # - name: Upload built Flatpak
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: ${{ matrix.app }}
+      #     path: "${{ matrix.app }}.flatpak"
