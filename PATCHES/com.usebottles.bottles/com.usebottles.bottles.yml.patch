@@ -1,5 +1,5 @@
 diff --git OLD/com.usebottles.bottles/com.usebottles.bottles.yml NEW/com.usebottles.bottles/com.usebottles.bottles.yml
-index 9505345..80492cb 100644
+index 9505345..6ce6544 100644
 --- OLD/com.usebottles.bottles/com.usebottles.bottles.yml
 +++ NEW/com.usebottles.bottles/com.usebottles.bottles.yml
 @@ -1,9 +1,7 @@
@@ -41,7 +41,7 @@ index 9505345..80492cb 100644
    com.valvesoftware.Steam.CompatibilityTool:
      subdirectories: true
      directory: share/steam/compatibilitytools.d
-@@ -61,7 +43,9 @@ cleanup:
+@@ -61,10 +43,13 @@ cleanup:
    - /include
    - /lib/pkgconfig
    - /man
@@ -51,7 +51,11 @@ index 9505345..80492cb 100644
    - /share/gtk-doc
    - /share/man
    - /share/pkgconfig
-@@ -156,17 +140,6 @@ modules:
++  - /share/vulkan/registry
+   - '*.la'
+   - '*.a'
+ 
+@@ -156,17 +141,6 @@ modules:
            is-important: true
            tag-pattern: ^([\d.]+)$
  
@@ -69,7 +73,7 @@ index 9505345..80492cb 100644
    - name: vkbasalt-cli
      buildsystem: simple
      build-commands:
-@@ -201,6 +174,9 @@ modules:
+@@ -201,6 +175,9 @@ modules:
        - name: vte
          buildsystem: meson
          config-opts:
