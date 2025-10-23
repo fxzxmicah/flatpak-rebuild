@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "PATCHES/**"
+      - PATCHES/**
 
 jobs:
   enumerate:
@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - id: enumerate
         run: |
-          echo "matrix=$(find PATCHES -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | jq -R . | jq -sc '{app: .}')" >> $GITHUB_OUTPUT
+          echo "matrix=$(find PATCHES -mindepth 1 -maxdepth 1 -type d -printf "%f\n" | jq -R . | jq -sc "{app: .}")" >> $GITHUB_OUTPUT
 
   build:
     needs: enumerate
@@ -39,37 +39,37 @@ jobs:
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
+        id: importation
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Apply patches
         run: |
-          for patch in ../PATCHES/${{ matrix.app }}/*.patch; do
+          for patch in PATCHES/${{ matrix.app }}/*.patch; do
             [ -f "${patch}" ] || continue
             echo "Applying ${patch}"
-            git apply -p 2 "${patch}"
+            git apply --directory src -p 2 "${patch}"
           done
-        working-directory: src
 
       - name: Build flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
-          bundle: ${{ matrix.app }}.flatpak
+          build-bundle: false
           manifest-path: src/${{ matrix.app }}.yml
-          gpg-sign: ${{ secrets.GPG_KEY_ID }}
+          gpg-sign: ${{ steps.importation.outputs.keyid }}
           cache-key: flatpak-builder-${{ matrix.app }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: repo-${{ matrix.app }}
+          name: ${{ matrix.app }}
           path: repo
 
       # Remove this when there are multiple apps to build
       - name: Upload artifact (Test)
         uses: actions/upload-artifact@v4
         with:
-          name: repo-com.abc.def
+          name: com.abc.def
           path: repo
 
   upload:
@@ -79,7 +79,6 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
-          pattern: repo-*
           path: sources
 
       - name: Install dependencies
@@ -89,6 +88,7 @@ jobs:
 
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
+        id: importation
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
 
@@ -108,10 +108,10 @@ jobs:
           Homepage=${{ github.server_url }}/${{ github.repository }}
           Comment=Rebuild repository for Flatpak applications
           Description=Rebuild repository for Flatpak applications
-          GPGKey=$(gpg --export --armor ${{ secrets.GPG_KEY_ID }} | base64 -w0)
+          GPGKey=$(gpg --export --armor ${{ steps.importation.outputs.keyid }} | base64 -w0)
           EOF
 
-          flatpak build-update-repo flatpak --gpg-sign=${{ secrets.GPG_KEY_ID }}
+          flatpak build-update-repo flatpak --gpg-sign=${{ steps.importation.outputs.keyid }}
 
       - name: Setup utility
         uses: yizhoumo/setup-ossutil@v2
