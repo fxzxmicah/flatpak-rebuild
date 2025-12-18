@@ -1,0 +1,80 @@
+diff --git OLD/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml NEW/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
+index d50709b..ff5ab81 100644
+--- OLD/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
++++ NEW/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
+@@ -43,6 +43,7 @@ modules:
+           - /share/applications
+           - /share/bash-completion
+           - /share/doc
++          - /share/fish
+           - /share/icons
+           - /share/man
+           - /share/zsh
+@@ -68,60 +69,6 @@ modules:
+         modules:
+           - shared-modules/lua5.1/lua-5.1.5.json
+ 
+-          - name: libopenmpt
+-            config-opts:
+-              - --disable-static
+-              - --disable-tests
+-              - --disable-examples
+-              - --disable-openmpt123
+-              - --disable-doxygen-doc
+-              - --without-portaudio
+-            cleanup:
+-              - /include
+-              - /lib/pkgconfig
+-              - /lib/*.la
+-              - /share/doc
+-            sources:
+-              - type: archive
+-                url: https://lib.openmpt.org/files/libopenmpt/src/libopenmpt-0.8.3+release.autotools.tar.gz
+-                sha256: 25d486a4da9728819274ed0959fd79a1c6358954710d54c14047c6457c8ca8ac
+-                x-checker-data:
+-                  type: anitya
+-                  project-id: 141468
+-                  stable-only: true
+-                  url-template: https://lib.openmpt.org/files/libopenmpt/src/libopenmpt-$version+release.autotools.tar.gz
+-
+-          - name: ffmpeg
+-            cleanup:
+-              - /include
+-              - /lib/pkgconfig
+-              - /share/ffmpeg/examples
+-            config-opts:
+-              - --enable-shared
+-              - --disable-static
+-              - --enable-gnutls
+-              - --enable-gpl
+-              - --disable-doc
+-              - --disable-programs
+-              - --disable-encoders
+-              - --disable-muxers
+-              - --enable-encoder=png
+-              - --enable-encoder=libjxl
+-              - --enable-libv4l2
+-              - --enable-libdav1d
+-              - --enable-libjxl
+-              - --enable-libopenmpt
+-            sources:
+-              - type: archive
+-                url: https://ffmpeg.org/releases/ffmpeg-8.0.1.tar.xz
+-                sha256: 05ee0b03119b45c0bdb4df654b96802e909e0a752f72e4fe3794f487229e5a41
+-                x-checker-data:
+-                  type: anitya
+-                  project-id: 5405
+-                  stable-only: true
+-                  url-template: https://ffmpeg.org/releases/ffmpeg-$version.tar.xz
+-                  is-important: true
+-
+           - name: libass
+             cleanup:
+               - /include
+@@ -269,6 +216,3 @@ modules:
+         x-checker-data:
+           type: git
+           tag-pattern: ^([\d.]+)$
+-
+-
+-
