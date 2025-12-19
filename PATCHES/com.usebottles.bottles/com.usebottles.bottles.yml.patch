@@ -1,5 +1,5 @@
 diff --git OLD/com.usebottles.bottles/com.usebottles.bottles.yml NEW/com.usebottles.bottles/com.usebottles.bottles.yml
-index cd8e116..5573353 100644
+index cd8e116..0bcc7a3 100644
 --- OLD/com.usebottles.bottles/com.usebottles.bottles.yml
 +++ NEW/com.usebottles.bottles/com.usebottles.bottles.yml
 @@ -1,8 +1,6 @@
@@ -11,15 +11,19 @@ index cd8e116..5573353 100644
  runtime-version: '49'
  command: bottles
  
-@@ -17,32 +15,12 @@ finish-args:
+@@ -17,32 +15,16 @@ finish-args:
    - --socket=pulseaudio
    - --device=all
    - --system-talk-name=org.freedesktop.UDisks2
 -  - --env=LD_LIBRARY_PATH=/app/lib:/app/lib/i386-linux-gnu
-+  - --env=LD_LIBRARY_PATH=/app/lib
++  - --filesystem=xdg-desktop
++  - --filesystem=xdg-documents
++  - --filesystem=xdg-pictures
++  - --filesystem=xdg-music
++  - --filesystem=xdg-videos
++  - --filesystem=xdg-download
    - --env=PATH=/app/bin:/app/utils/bin:/usr/bin:/usr/lib/extensions/vulkan/MangoHud/bin/:/usr/bin:/usr/lib/extensions/vulkan/OBSVkCapture/bin/:/usr/lib/extensions/vulkan/gamescope/bin/
 -  - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0
-+  - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0
    - --require-version=1.1.2
  
 -inherit-extensions:
@@ -46,29 +50,35 @@ index cd8e116..5573353 100644
    com.valvesoftware.Steam.CompatibilityTool:
      subdirectories: true
      directory: share/steam/compatibilitytools.d
-@@ -65,10 +43,13 @@ cleanup:
+@@ -64,9 +46,8 @@ add-extensions:
+ cleanup:
    - /include
    - /lib/pkgconfig
-   - /man
-+  - /share/cmake
+-  - /man
    - /share/doc
+-  - /share/gtk-doc
 +  - /share/gir-1.0
-   - /share/gtk-doc
    - /share/man
    - /share/pkgconfig
-+  - /share/vulkan/registry
    - '*.la'
-   - '*.a'
- 
-@@ -76,7 +57,6 @@ cleanup-commands:
+@@ -75,15 +56,13 @@ cleanup:
+ cleanup-commands:
    - mkdir -p /app/utils
    - mkdir -p /app/share/steam/compatibilitytools.d
-   - mkdir -p /app/share/vulkan/implicit_layer.d/
+-  - mkdir -p /app/share/vulkan/implicit_layer.d/
 -  - mkdir -p /app/lib/i386-linux-gnu/codecs-extra
  
  modules:
    # PYPI modules
-@@ -99,6 +79,7 @@ modules:
+   # ----------------------------------------------------------------------------
+   - com.usebottles.bottles.pypi-deps.yaml
+ 
+-  # Tools / Codecs
++  # Tools
+   # ----------------------------------------------------------------------------
+   - name: vmtouch
+     buildsystem: simple
+@@ -99,31 +78,49 @@ modules:
      build-commands:
        - make
        - make install PREFIX=/app
@@ -76,13 +86,52 @@ index cd8e116..5573353 100644
    - name: vulkan-tools
      buildsystem: cmake-ninja
      config-opts:
-@@ -125,6 +106,19 @@ modules:
-               type: git
-               tag-pattern: ^sdk-([\d.]+)$
- 
+-      - -DGLSLANG_INSTALL_DIR=/app
+-      - -DVULKAN_HEADERS_INSTALL_DIR=/app
+       - -DCMAKE_BUILD_TYPE=Release
+     sources:
+       - type: git
+         url: https://github.com/KhronosGroup/Vulkan-Tools.git
+-        tag: sdk-1.3.261.1
+-        commit: a7da7027ca9fd0901639f02619c226da9c6036f1
++        tag: vulkan-sdk-1.4.321.0
++        commit: 06ae73a3dc3a03466817d8370355203dac7b79b1
+         x-checker-data:
+           type: git
+-          tag-pattern: ^sdk-([\d.]+)$
+-    modules:
+-      - name: vulkan-tools
+-        buildsystem: cmake-ninja
+-        sources:
+-          - type: git
+-            url: https://github.com/KhronosGroup/Vulkan-Headers.git
+-            tag: sdk-1.3.261.1
+-            commit: 85c2334e92e215cce34e8e0ed8b2dce4700f4a50
+-            x-checker-data:
+-              type: git
+-              tag-pattern: ^sdk-([\d.]+)$
++          tag-pattern: ^vulkan-sdk-([\d.]+)$
++      - type: patch
++        path: 105d6c1fede00c3a9055e5a531ebf3d99bac406e.patch
++
++  - name: 7zip
++    buildsystem: simple
++    subdir: CPP/7zip/Bundles/Alone2
++    sources:
++      - type: git
++        url: https://github.com/ip7z/7zip.git
++        tag: '25.01'
++        commit: 5e96a8279489832924056b1fa82f29d5837c9469
++        x-checker-data:
++          type: git
++          tag-pattern: ^([\d.]+)$
++    build-commands:
++      - make -j $FLATPAK_BUILDER_N_JOBS -f makefile.gcc
++      - install -Dm755 ./_o/7zz -t /app/bin
++      - ln -s /app/bin/7zz /app/bin/7za
++      - ln -s /app/bin/7zz /app/bin/7z
++
 +  - name: cabextract
-+    config-opts:
-+      - --prefix=/app
 +    sources:
 +      - type: archive
 +        url: https://www.cabextract.org.uk/cabextract-1.11.tar.gz
@@ -92,11 +141,10 @@ index cd8e116..5573353 100644
 +          project-id: 245
 +          stable-only: true
 +          url-template: https://www.cabextract.org.uk/cabextract-$version.tar.gz
-+
+ 
    # Libraries
    # ----------------------------------------------------------------------------
- 
-@@ -195,6 +189,9 @@ modules:
+@@ -195,6 +192,9 @@ modules:
        - name: vte
          buildsystem: meson
          config-opts:

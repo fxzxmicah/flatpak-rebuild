@@ -1,8 +1,8 @@
 diff --git OLD/app.zen_browser.zen/app.zen_browser.zen.yml NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-index dc06a9b..67a53f9 100644
+index dc06a9b..ca2a6af 100644
 --- OLD/app.zen_browser.zen/app.zen_browser.zen.yml
 +++ NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-@@ -1,14 +1,10 @@
+@@ -1,20 +1,15 @@
  app-id: app.zen_browser.zen
  runtime: org.freedesktop.Platform
 -runtime-version: '24.08'
@@ -19,7 +19,13 @@ index dc06a9b..67a53f9 100644
    app.zen_browser.zen.systemconfig:
      directory: etc/zen
      no-autodownload: true
-@@ -25,9 +21,8 @@ finish-args:
+ command: launch-script.sh
+ finish-args:
+-  - --allow=devel
+   - --share=ipc
+   - --share=network
+   - --socket=pulseaudio
+@@ -25,9 +20,8 @@ finish-args:
    - --persist=.zen
    - --env=DICPATH=/usr/share/hunspell
    - --filesystem=xdg-download:rw
@@ -30,7 +36,7 @@ index dc06a9b..67a53f9 100644
    - --talk-name=org.freedesktop.FileManager1
    - --system-talk-name=org.freedesktop.NetworkManager
    - --talk-name=org.a11y.Bus
-@@ -51,7 +46,6 @@ modules:
+@@ -51,7 +45,6 @@ modules:
      buildsystem: simple
      build-commands:
        - mv zen /app/
