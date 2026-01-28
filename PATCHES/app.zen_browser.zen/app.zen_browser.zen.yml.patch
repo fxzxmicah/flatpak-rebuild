@@ -1,23 +1,8 @@
 diff --git OLD/app.zen_browser.zen/app.zen_browser.zen.yml NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-index dc06a9b..ca2a6af 100644
+index 49ce598..344b911 100644
 --- OLD/app.zen_browser.zen/app.zen_browser.zen.yml
 +++ NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-@@ -1,20 +1,15 @@
- app-id: app.zen_browser.zen
- runtime: org.freedesktop.Platform
--runtime-version: '24.08'
-+runtime-version: '25.08'
- sdk: org.freedesktop.Sdk
- base: org.mozilla.firefox.BaseApp
--base-version: '24.08'
-+base-version: '25.08'
- add-extensions:
--  org.freedesktop.Platform.ffmpeg-full:
--    directory: lib/ffmpeg
--    version: '24.08'
--    add-ld-path: .
-   app.zen_browser.zen.systemconfig:
-     directory: etc/zen
+@@ -10,7 +10,6 @@ add-extensions:
      no-autodownload: true
  command: launch-script.sh
  finish-args:
@@ -25,7 +10,7 @@ index dc06a9b..ca2a6af 100644
    - --share=ipc
    - --share=network
    - --socket=pulseaudio
-@@ -25,9 +20,8 @@ finish-args:
+@@ -21,9 +20,8 @@ finish-args:
    - --persist=.zen
    - --env=DICPATH=/usr/share/hunspell
    - --filesystem=xdg-download:rw
@@ -36,11 +21,3 @@ index dc06a9b..ca2a6af 100644
    - --talk-name=org.freedesktop.FileManager1
    - --system-talk-name=org.freedesktop.NetworkManager
    - --talk-name=org.a11y.Bus
-@@ -51,7 +45,6 @@ modules:
-     buildsystem: simple
-     build-commands:
-       - mv zen /app/
--      - mkdir -p /app/lib/ffmpeg
-       - mkdir -p /app/etc/zen
- 
-       - install -Dm0755 metadata/launch-script.sh ${FLATPAK_DEST}/bin/launch-script.sh

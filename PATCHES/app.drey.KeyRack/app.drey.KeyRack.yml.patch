@@ -1,5 +1,5 @@
 diff --git OLD/app.drey.KeyRack/app.drey.KeyRack.yml NEW/app.drey.KeyRack/app.drey.KeyRack.yml
-index a8dbbf8..b0cad93 100644
+index a8dbbf8..f8a3c5d 100644
 --- OLD/app.drey.KeyRack/app.drey.KeyRack.yml
 +++ NEW/app.drey.KeyRack/app.drey.KeyRack.yml
 @@ -1,7 +1,7 @@
@@ -11,11 +11,13 @@ index a8dbbf8..b0cad93 100644
  sdk: org.gnome.Sdk
  sdk-extensions:
    - org.freedesktop.Sdk.Extension.rust-stable
-@@ -29,7 +29,7 @@ modules:
+@@ -28,8 +28,8 @@ modules:
+       - -Dprofile=release
      sources:
        - type: git
-         url: https://gitlab.gnome.org/sophie-h/key-rack.git
+-        url: https://gitlab.gnome.org/sophie-h/key-rack.git
 -        commit: 2996355b89a1a62277fe231d1ec15635a9f3af9f
++        url: https://gitlab.gnome.org/World/key-rack.git
 +        commit: b7ba09bae8ed8b97bd6b4b9ccc4d3e9d680787f4
        # generated via flatpak-builder-tools
        - generated-sources.json
