@@ -1,5 +1,5 @@
 diff --git OLD/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml NEW/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
-index 698cde3..7660c8c 100644
+index 4db89be..fd58b82 100644
 --- OLD/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
 +++ NEW/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
 @@ -43,6 +43,7 @@ modules:
@@ -71,10 +71,3 @@ index 698cde3..7660c8c 100644
            - name: libass
              cleanup:
                - /include
-@@ -275,6 +222,3 @@ modules:
-         x-checker-data:
-           type: git
-           tag-pattern: ^([\d.]+)$
--
--
--

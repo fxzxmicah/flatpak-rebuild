@@ -1,5 +1,5 @@
 diff --git OLD/app.drey.KeyRack/app.drey.KeyRack.yml NEW/app.drey.KeyRack/app.drey.KeyRack.yml
-index a8dbbf8..f8a3c5d 100644
+index a8dbbf8..d50bb3d 100644
 --- OLD/app.drey.KeyRack/app.drey.KeyRack.yml
 +++ NEW/app.drey.KeyRack/app.drey.KeyRack.yml
 @@ -1,7 +1,7 @@
@@ -18,7 +18,7 @@ index a8dbbf8..f8a3c5d 100644
 -        url: https://gitlab.gnome.org/sophie-h/key-rack.git
 -        commit: 2996355b89a1a62277fe231d1ec15635a9f3af9f
 +        url: https://gitlab.gnome.org/World/key-rack.git
-+        commit: b7ba09bae8ed8b97bd6b4b9ccc4d3e9d680787f4
++        commit: ad2d185372126dc62b312fb07bbb06aaf2d98da0
        # generated via flatpak-builder-tools
        - generated-sources.json
        # copy generated cargo config
