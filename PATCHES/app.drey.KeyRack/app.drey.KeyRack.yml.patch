@@ -1,24 +1,15 @@
 diff --git OLD/app.drey.KeyRack/app.drey.KeyRack.yml NEW/app.drey.KeyRack/app.drey.KeyRack.yml
-index a8dbbf8..d50bb3d 100644
+index f4363e4..a5e4ddd 100644
 --- OLD/app.drey.KeyRack/app.drey.KeyRack.yml
 +++ NEW/app.drey.KeyRack/app.drey.KeyRack.yml
-@@ -1,7 +1,7 @@
- id: app.drey.KeyRack
- command: key-rack
- runtime: org.gnome.Platform
--runtime-version: '48'
-+runtime-version: '49'
- sdk: org.gnome.Sdk
- sdk-extensions:
-   - org.freedesktop.Sdk.Extension.rust-stable
 @@ -28,8 +28,8 @@ modules:
        - -Dprofile=release
      sources:
        - type: git
 -        url: https://gitlab.gnome.org/sophie-h/key-rack.git
--        commit: 2996355b89a1a62277fe231d1ec15635a9f3af9f
+-        commit: edb3564e1dfeeedfb33862995213fa6123c67c1f 
 +        url: https://gitlab.gnome.org/World/key-rack.git
-+        commit: ad2d185372126dc62b312fb07bbb06aaf2d98da0
++        commit: edb3564e1dfeeedfb33862995213fa6123c67c1f
        # generated via flatpak-builder-tools
        - generated-sources.json
        # copy generated cargo config

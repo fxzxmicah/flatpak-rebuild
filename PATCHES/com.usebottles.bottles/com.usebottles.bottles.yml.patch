@@ -1,17 +1,19 @@
 diff --git OLD/com.usebottles.bottles/com.usebottles.bottles.yml NEW/com.usebottles.bottles/com.usebottles.bottles.yml
-index cdaed51..f29c826 100644
+index acd74ea..425836c 100644
 --- OLD/com.usebottles.bottles/com.usebottles.bottles.yml
 +++ NEW/com.usebottles.bottles/com.usebottles.bottles.yml
-@@ -1,8 +1,6 @@
+@@ -1,9 +1,7 @@
  id: com.usebottles.bottles
  sdk: org.gnome.Sdk
  runtime: org.gnome.Platform
 -base: org.winehq.Wine
 -base-version: stable-25.08
- runtime-version: '49'
+-runtime-version: '49'
++runtime-version: '50'
  command: bottles
  
-@@ -17,32 +15,16 @@ finish-args:
+ finish-args:
+@@ -17,35 +15,19 @@ finish-args:
    - --socket=pulseaudio
    - --device=all
    - --system-talk-name=org.freedesktop.UDisks2
@@ -25,6 +27,9 @@ index cdaed51..f29c826 100644
    - --env=PATH=/app/bin:/app/utils/bin:/usr/bin:/usr/lib/extensions/vulkan/MangoHud/bin/:/usr/bin:/usr/lib/extensions/vulkan/OBSVkCapture/bin/:/usr/lib/extensions/vulkan/gamescope/bin/
 -  - --env=GST_PLUGIN_SYSTEM_PATH=/app/lib/gstreamer-1.0:/usr/lib/x86_64-linux-gnu/gstreamer-1.0:/usr/lib/i386-linux-gnu/gstreamer-1.0
    - --require-version=1.1.2
+ 
+ sdk-extensions:
+   - org.freedesktop.Sdk.Extension.golang
  
 -inherit-extensions:
 -  - org.freedesktop.Platform.GL32
@@ -50,7 +55,7 @@ index cdaed51..f29c826 100644
    com.valvesoftware.Steam.CompatibilityTool:
      subdirectories: true
      directory: share/steam/compatibilitytools.d
-@@ -64,9 +46,8 @@ add-extensions:
+@@ -67,9 +49,8 @@ add-extensions:
  cleanup:
    - /include
    - /lib/pkgconfig
@@ -61,7 +66,7 @@ index cdaed51..f29c826 100644
    - /share/man
    - /share/pkgconfig
    - '*.la'
-@@ -75,8 +56,6 @@ cleanup:
+@@ -78,8 +59,6 @@ cleanup:
  cleanup-commands:
    - mkdir -p /app/utils
    - mkdir -p /app/share/steam/compatibilitytools.d
@@ -70,7 +75,7 @@ index cdaed51..f29c826 100644
  
  modules:
    # Eagle modules
-@@ -99,6 +78,7 @@ modules:
+@@ -102,6 +81,7 @@ modules:
          buildsystem: cmake-ninja
          config-opts:
            - "-DJANSSON_BUILD_DOCS=OFF"
@@ -78,7 +83,7 @@ index cdaed51..f29c826 100644
            - "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
          sources:
            - type: git
-@@ -107,12 +87,14 @@ modules:
+@@ -110,13 +90,15 @@ modules:
              x-checker-data:
                type: git
                tag-pattern: "^v([\\d.]+)$"
@@ -89,13 +94,14 @@ index cdaed51..f29c826 100644
    # PYPI modules
    # ----------------------------------------------------------------------------
    - com.usebottles.bottles.pypi-deps.yaml
+   - com.usebottles.bottles.fvs2-deps.yaml
  
 -  # Tools / Codecs
 +  # Tools
    # ----------------------------------------------------------------------------
    - name: vmtouch
      buildsystem: simple
-@@ -128,31 +110,49 @@ modules:
+@@ -132,31 +114,49 @@ modules:
      build-commands:
        - make
        - make install PREFIX=/app
@@ -137,8 +143,8 @@ index cdaed51..f29c826 100644
 +    sources:
 +      - type: git
 +        url: https://github.com/ip7z/7zip.git
-+        tag: '25.01'
-+        commit: 5e96a8279489832924056b1fa82f29d5837c9469
++        tag: '26.01'
++        commit: 8c63d71ff886bda90c86db28466287f977374237
 +        x-checker-data:
 +          type: git
 +          tag-pattern: ^([\d.]+)$
@@ -161,7 +167,7 @@ index cdaed51..f29c826 100644
  
    # Libraries
    # ----------------------------------------------------------------------------
-@@ -224,6 +224,9 @@ modules:
+@@ -228,6 +228,9 @@ modules:
        - name: vte
          buildsystem: meson
          config-opts:
@@ -171,7 +177,7 @@ index cdaed51..f29c826 100644
            - -Ddocs=false
            - -Dvapi=false
          sources:
-@@ -234,6 +237,10 @@ modules:
+@@ -238,6 +241,10 @@ modules:
              x-checker-data:
                type: git
                tag-pattern: ^([\d.]+)$

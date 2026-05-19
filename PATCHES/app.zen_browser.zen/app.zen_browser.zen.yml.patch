@@ -1,5 +1,5 @@
 diff --git OLD/app.zen_browser.zen/app.zen_browser.zen.yml NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-index 49ce598..344b911 100644
+index b2acc04..e895125 100644
 --- OLD/app.zen_browser.zen/app.zen_browser.zen.yml
 +++ NEW/app.zen_browser.zen/app.zen_browser.zen.yml
 @@ -10,7 +10,6 @@ add-extensions:
