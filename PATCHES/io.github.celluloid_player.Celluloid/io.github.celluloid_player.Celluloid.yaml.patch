@@ -1,5 +1,5 @@
 diff --git OLD/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml NEW/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
-index 48d7602..4f63426 100644
+index 3695a93..2886261 100644
 --- OLD/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
 +++ NEW/io.github.celluloid_player.Celluloid/io.github.celluloid_player.Celluloid.yaml
 @@ -43,6 +43,7 @@ modules:
@@ -29,8 +29,8 @@ index 48d7602..4f63426 100644
 -              - /share/doc
 -            sources:
 -              - type: archive
--                url: https://lib.openmpt.org/files/libopenmpt/src/libopenmpt-0.8.6+release.autotools.tar.gz
--                sha256: caa2fa959e389f4374d9e2df3af5c633452c12dd80442cba2e89cb7ff2b93c5b
+-                url: https://lib.openmpt.org/files/libopenmpt/src/libopenmpt-0.8.7+release.autotools.tar.gz
+-                sha256: 275c29ef47be9992f62a35fcc96f7ca05c06d2fd05c9298b8dee9f743f75b089
 -                x-checker-data:
 -                  type: anitya
 -                  project-id: 141468
@@ -59,8 +59,8 @@ index 48d7602..4f63426 100644
 -              - --enable-libopenmpt
 -            sources:
 -              - type: archive
--                url: https://ffmpeg.org/releases/ffmpeg-8.1.1.tar.xz
--                sha256: b6863adde98898f42602017462871b5f6333e65aec803fdd7a6308639c52edf3
+-                url: https://ffmpeg.org/releases/ffmpeg-8.1.2.tar.xz
+-                sha256: 464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c
 -                x-checker-data:
 -                  type: anitya
 -                  project-id: 5405
