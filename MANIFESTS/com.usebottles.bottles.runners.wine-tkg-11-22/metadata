@@ -1,5 +1,5 @@
 [Runtime]
-name=com.usebottles.bottles.runners.wine-tkg-11-21
+name=com.usebottles.bottles.runners.wine-tkg-11-22
 runtime=org.gnome.Platform/x86_64/51
 sdk=org.gnome.Sdk/x86_64/51
 

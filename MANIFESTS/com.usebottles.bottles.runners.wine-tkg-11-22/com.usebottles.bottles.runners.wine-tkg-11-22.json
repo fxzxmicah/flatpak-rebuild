@@ -1,5 +1,5 @@
 {
-  "id": "com.usebottles.bottles.runners.wine-tkg-11-21",
+  "id": "com.usebottles.bottles.runners.wine-tkg-11-22",
   "branch": "stable",
   "runtime": "org.gnome.Platform",
   "runtime-version": "51",
@@ -93,8 +93,8 @@
         "env": {
           "camlibdir": "/app/lib/libgphoto2",
           "iolibdir": "/app/lib/libgphoto2_port",
-          "DEFAULT_CAMLIBS": "/app/share/bottles/runners/wine-tkg-11-21/lib/libgphoto2",
-          "DEFAULT_IOLIBS": "/app/share/bottles/runners/wine-tkg-11-21/lib/libgphoto2_port"
+          "DEFAULT_CAMLIBS": "/app/share/bottles/runners/wine-tkg-11-22/lib/libgphoto2",
+          "DEFAULT_IOLIBS": "/app/share/bottles/runners/wine-tkg-11-22/lib/libgphoto2_port"
         }
       }
     },
@@ -125,16 +125,16 @@
         {
           "type": "git",
           "url": "https://github.com/wine-mirror/wine.git",
-          "tag": "wine-11.21",
-          "commit": "2528aff26208257fdbf980666a4f0e66d47563ce",
+          "tag": "wine-11.22",
+          "commit": "9f8c4ae4d35c7ff4153267aba9618c026f5f5583",
           "dest": "wine-tkg-git/sources/wine",
           "disable-shallow-clone": true
         },
         {
           "type": "git",
           "url": "https://github.com/wine-staging/wine-staging.git",
-          "tag": "v11.21",
-          "commit": "04414fee61f7d283072d40905816b928875b2d4b",
+          "tag": "v11.22",
+          "commit": "40ab84054fe2ead6c689de31405ba36269e9ee3a",
           "dest": "wine-tkg-git/sources/wine-staging",
           "disable-shallow-clone": true
         }
