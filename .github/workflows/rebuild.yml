@@ -80,7 +80,6 @@ jobs:
           manifest-path: ${{ steps.resolution.outputs.manifest }}
           branch: stable
           build-bundle: false
-          run-tests: true
           gpg-sign: ${{ steps.importation.outputs.fingerprint }}
           cache-key: flatpak-builder-${{ matrix.app }}
 

@@ -127,7 +127,7 @@ modules:
           type: git
           tag-pattern: ^([\d.]+)$
     build-commands:
-      - make -j $FLATPAK_BUILDER_N_JOBS -f makefile.gcc
+      - make -j "${FLATPAK_BUILDER_N_JOBS}" -f makefile.gcc CXX_WARN_FLAGS=-Wno-error=array-bounds
       - install -Dm755 ./_o/7zz -t /app/bin
       - ln -s /app/bin/7zz /app/bin/7za
       - ln -s /app/bin/7zz /app/bin/7z

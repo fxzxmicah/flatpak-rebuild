@@ -137,6 +137,18 @@
           "commit": "40ab84054fe2ead6c689de31405ba36269e9ee3a",
           "dest": "wine-tkg-git/sources/wine-staging",
           "disable-shallow-clone": true
+        },
+        {
+          "type": "file",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v1.4.363/xml/vk.xml",
+          "sha256": "55ec60950cfb18c3575dcf5fd52741b2bb70eb1e466408f803a91049973ee6fb",
+          "dest": "wine-tkg-git/sources/vulkan"
+        },
+        {
+          "type": "file",
+          "url": "https://raw.githubusercontent.com/KhronosGroup/Vulkan-Docs/v1.4.363/xml/video.xml",
+          "sha256": "d018b914014c06605e367a3b929670511e6f6de2f225c405a8b5e2d912408b76",
+          "dest": "wine-tkg-git/sources/vulkan"
         }
       ]
     }

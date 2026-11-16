@@ -68,3 +68,26 @@ index dae7a7c0..6199bb77 100644
  		# if the target dir already exists, nuke it
  		rm -rf "$_where/non-makepkg-builds/${_nomakepkg_pkgname}"
  
+diff --git a/wine-tkg-git/wine-tkg-scripts/prepare.sh b/wine-tkg-git/wine-tkg-scripts/prepare.sh
+index cd9b8060..0b18f775 100644
+--- a/wine-tkg-git/wine-tkg-scripts/prepare.sh
++++ b/wine-tkg-git/wine-tkg-scripts/prepare.sh
+@@ -1108,11 +1108,16 @@ _polish() {
+ 
+ 	# tools/make_makefiles destroys Valve trees - disable on those
+ 	if [[ "$_custom_wine_source" != *"ValveSoftware"* ]]; then
+-	  git add * && true
++	  git add --all
+ 	  tools/make_makefiles
+ 	fi
+ 
+-	echo -e "\nRunning make_vulkan" >> "$_where"/prepare.log && dlls/winevulkan/make_vulkan -v >> "$_where"/prepare.log 2>&1
++	local -a _vulkan_args=(-v)
++	if [ -n "${_FLATPAK_SOURCE_ROOT:-}" ]; then
++	  _vulkan_args+=(-x "${_FLATPAK_SOURCE_ROOT}/vulkan/vk.xml" -X "${_FLATPAK_SOURCE_ROOT}/vulkan/video.xml")
++	fi
++	echo -e "\nRunning make_vulkan" >> "${_where}/prepare.log"
++	dlls/winevulkan/make_vulkan "${_vulkan_args[@]}" >> "${_where}/prepare.log" 2>&1 || { cat "${_where}/prepare.log" >&2; return 1; }
+ 	if [ "$_no_container" = "false" ] && [[ "$_custom_wine_source" != *"ValveSoftware"* ]]; then
+ 	  if ! cp -v $( ls -v "$HOME"/.cache/wine/vk-* | tail -n 1 ) "${srcdir}"/"${_winesrcdir}"/dlls/winevulkan/vk.xml; then
+ 	    warning "Cached vk.xml not found"
