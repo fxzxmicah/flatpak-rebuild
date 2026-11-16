@@ -1,8 +1,19 @@
 diff --git OLD/app.zen_browser.zen/app.zen_browser.zen.yml NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-index b2acc04..e895125 100644
+index 15c24e2..50a13d8 100644
 --- OLD/app.zen_browser.zen/app.zen_browser.zen.yml
 +++ NEW/app.zen_browser.zen/app.zen_browser.zen.yml
-@@ -10,7 +10,6 @@ add-extensions:
+@@ -1,16 +1,15 @@
+ app-id: app.zen_browser.zen
+ runtime: org.freedesktop.Platform
+-runtime-version: '25.08'
++runtime-version: '26.08'
+ sdk: org.freedesktop.Sdk
+ base: org.mozilla.firefox.BaseApp
+-base-version: '25.08'
++base-version: '26.08'
+ add-extensions:
+   app.zen_browser.zen.systemconfig:
+     directory: etc/zen
      no-autodownload: true
  command: launch-script.sh
  finish-args:
@@ -10,7 +21,7 @@ index b2acc04..e895125 100644
    - --share=ipc
    - --share=network
    - --socket=pulseaudio
-@@ -21,9 +20,8 @@ finish-args:
+@@ -21,12 +20,10 @@ finish-args:
    - --persist=.zen
    - --env=DICPATH=/usr/share/hunspell
    - --filesystem=xdg-download:rw
@@ -20,4 +31,7 @@ index b2acc04..e895125 100644
 +  - --device=dri
    - --talk-name=org.freedesktop.FileManager1
    - --system-talk-name=org.freedesktop.NetworkManager
+-  - --system-talk-name=org.freedesktop.Avahi
    - --talk-name=org.a11y.Bus
+   - --talk-name=org.gtk.vfs.*
+   - --own-name=org.mpris.MediaPlayer2.firefox.*

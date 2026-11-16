@@ -1,0 +1,8 @@
+[Runtime]
+name=com.usebottles.bottles.runners.wine-tkg-11-21
+runtime=org.gnome.Platform/x86_64/51
+sdk=org.gnome.Sdk/x86_64/51
+
+[ExtensionOf]
+ref=app/com.usebottles.bottles/x86_64/stable
+runtime=org.gnome.Platform/x86_64/51

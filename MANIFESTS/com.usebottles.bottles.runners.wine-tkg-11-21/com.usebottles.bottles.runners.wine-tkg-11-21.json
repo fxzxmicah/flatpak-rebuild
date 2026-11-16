@@ -1,0 +1,149 @@
+{
+  "id": "com.usebottles.bottles.runners.wine-tkg-11-21",
+  "branch": "stable",
+  "runtime": "org.gnome.Platform",
+  "runtime-version": "51",
+  "sdk": "org.gnome.Sdk",
+  "separate-locales": false,
+  "sdk-extensions": [
+    "org.freedesktop.Sdk.Extension.mingw-w64"
+  ],
+  "build-options": {
+    "append-path": "/usr/lib/sdk/mingw-w64/bin",
+    "strip": true
+  },
+  "modules": [
+    {
+      "name": "opencl-headers",
+      "buildsystem": "simple",
+      "build-commands": [
+        "install -d \"${FLATPAK_DEST}/include/CL\"",
+        "cp -a CL/. \"${FLATPAK_DEST}/include/CL/\""
+      ],
+      "cleanup": [
+        "/include/CL"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/KhronosGroup/OpenCL-Headers/archive/refs/tags/v2026.05.29.tar.gz",
+          "sha256": "d9e6c48357de5002da11ce45de600e0c3ffe6ab4f628a3b9fe2b38603161658a"
+        }
+      ]
+    },
+    {
+      "name": "unixodbc",
+      "config-opts": [
+        "--disable-static"
+      ],
+      "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/man",
+        "*.a",
+        "*.la",
+        "/bin"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.unixodbc.org/unixODBC-2.3.14.tar.gz",
+          "sha256": "4e2814de3e01fc30b0b9f75e83bb5aba91ab0384ee951286504bb70205524771"
+        }
+      ]
+    },
+    {
+      "name": "libpcap",
+      "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/man",
+        "*.a",
+        "*.la"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://www.tcpdump.org/release/libpcap-1.10.6.tar.gz",
+          "sha256": "872dd11337fe1ab02ad9d4fee047c9da244d695c6ddf34e2ebb733efd4ed8aa9"
+        }
+      ]
+    },
+    {
+      "name": "libgphoto2",
+      "config-opts": [
+        "--disable-static"
+      ],
+      "cleanup": [
+        "/include",
+        "/lib/pkgconfig",
+        "/share/man",
+        "*.a",
+        "*.la",
+        "/bin"
+      ],
+      "sources": [
+        {
+          "type": "archive",
+          "url": "https://github.com/gphoto/libgphoto2/releases/download/v2.5.34/libgphoto2-2.5.34.tar.bz2",
+          "sha256": "5df9e774eb4ab6087a193afff84dcafe9f666e3443fe29e73e6779f659ff7f28"
+        }
+      ],
+      "build-options": {
+        "env": {
+          "camlibdir": "/app/lib/libgphoto2",
+          "iolibdir": "/app/lib/libgphoto2_port",
+          "DEFAULT_CAMLIBS": "/app/share/bottles/runners/wine-tkg-11-21/lib/libgphoto2",
+          "DEFAULT_IOLIBS": "/app/share/bottles/runners/wine-tkg-11-21/lib/libgphoto2_port"
+        }
+      }
+    },
+    {
+      "name": "wine-tkg",
+      "buildsystem": "simple",
+      "build-commands": [
+        "cd wine-tkg-git && ./non-makepkg-build.sh --config \"${PWD}/flatpak.cfg\"",
+        "install -Dm644 wine-tkg-git/src/wine-git/COPYING.LIB \"${FLATPAK_DEST}/share/licenses/wine/COPYING.LIB\"",
+        "\"${FLATPAK_DEST}/bin/wine\" --version",
+        "test -x \"${FLATPAK_DEST}/bin/wineserver\""
+      ],
+      "sources": [
+        {
+          "type": "git",
+          "url": "https://github.com/Frogging-Family/wine-tkg-git.git",
+          "commit": "65d846c85c986be4b1353b6df9baeebe2153f633"
+        },
+        {
+          "type": "patch",
+          "path": "flatpak-sources.patch"
+        },
+        {
+          "type": "file",
+          "path": "flatpak.cfg",
+          "dest": "wine-tkg-git"
+        },
+        {
+          "type": "git",
+          "url": "https://github.com/wine-mirror/wine.git",
+          "tag": "wine-11.21",
+          "commit": "2528aff26208257fdbf980666a4f0e66d47563ce",
+          "dest": "wine-tkg-git/sources/wine",
+          "disable-shallow-clone": true
+        },
+        {
+          "type": "git",
+          "url": "https://github.com/wine-staging/wine-staging.git",
+          "tag": "v11.21",
+          "commit": "04414fee61f7d283072d40905816b928875b2d4b",
+          "dest": "wine-tkg-git/sources/wine-staging",
+          "disable-shallow-clone": true
+        }
+      ]
+    }
+  ],
+  "metadata": "metadata",
+  "cleanup": [
+    "/share/man",
+    "/share/applications"
+  ]
+}

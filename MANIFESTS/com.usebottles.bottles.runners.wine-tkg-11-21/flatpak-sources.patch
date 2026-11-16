@@ -1,0 +1,70 @@
+diff --git a/wine-tkg-git/non-makepkg-build.sh b/wine-tkg-git/non-makepkg-build.sh
+index 7834f205..5ad9ff70 100755
+--- a/wine-tkg-git/non-makepkg-build.sh
++++ b/wine-tkg-git/non-makepkg-build.sh
+@@ -86,6 +86,22 @@ pkgver() {
+ }
+ 
+ _src_init() {
++  # Flatpak Builder supplies immutable, pinned Git sources before the sandbox starts.
++  if [ -n "${_FLATPAK_SOURCE_ROOT:-}" ]; then
++    _winesrcdir="wine-git"
++    _stgsrcdir="wine-staging-git"
++    for source in wine wine-staging; do
++      test -d "${_FLATPAK_SOURCE_ROOT}/${source}/.git" || {
++        error "Missing Flatpak Git source: ${source}"
++        return 1
++      }
++    done
++    git clone --no-hardlinks --local "${_FLATPAK_SOURCE_ROOT}/wine" "${srcdir}/${_winesrcdir}"
++    git clone --no-hardlinks --local "${_FLATPAK_SOURCE_ROOT}/wine-staging" "${srcdir}/${_stgsrcdir}"
++    find "${_where}"/wine-tkg-patches -type f -name '*.conf' -not -path '*hotfixes*' -exec cp -n {} "${_where}" \;
++    return
++  fi
++
+   # Wine source
+   if [ "$_github_mirrorsrc" = "true" ]; then
+     _winesrcdir="wine-mirror-git"
+@@ -300,11 +316,7 @@ build_wine_tkg() {
+   else
+     _nomakepkg_pkgname="${pkgname}-${pkgver}"
+   fi
+-  if [ -z "$_nomakepkg_prefix_path" ]; then
+-    local _prefix="$_where/${_nomakepkg_pkgname}"
+-  else
+-    local _prefix="${_nomakepkg_prefix_path}/${_nomakepkg_pkgname}"
+-  fi
++  local _prefix="${FLATPAK_DEST:-${_nomakepkg_prefix_path:-${_where}}/${_nomakepkg_pkgname}}"
+ 
+   if [ "$_NOLIB32" = "true" ] || ( [[ "$_custom_wine_source" = *"ValveSoftware"* ]] && [[ "$_plain_version" = *_11.0 ]] ); then # Valve: Maybe switch globally for wine 11+?
+     local _lib32name="lib"
+diff --git a/wine-tkg-git/wine-tkg-scripts/build.sh b/wine-tkg-git/wine-tkg-scripts/build.sh
+index dae7a7c0..6199bb77 100644
+--- a/wine-tkg-git/wine-tkg-scripts/build.sh
++++ b/wine-tkg-git/wine-tkg-scripts/build.sh
+@@ -203,11 +203,7 @@ _package_nomakepkg() {
+ 	else
+ 		_nomakepkg_pkgname="${pkgname}-${pkgver}"
+ 	fi
+-	if [ -z "$_nomakepkg_prefix_path" ]; then
+-		local _prefix="$_where/${_nomakepkg_pkgname}"
+-	else
+-		local _prefix="${_nomakepkg_prefix_path}/${_nomakepkg_pkgname}"
+-	fi
++	local _prefix="${FLATPAK_DEST:-${_nomakepkg_prefix_path:-${_where}}/${_nomakepkg_pkgname}}"
+ 
+ 	if [[ "$_NOLIB32" == "true" ]]; then
+ 		local _lib32name="lib"
+@@ -320,8 +316,10 @@ _package_nomakepkg() {
+ 
+ 	cp -v "$_where"/last_build_config.log "$_prefix"/share/wine/wine-tkg-config.txt
+ 
+-	# move our build to some subfolder
+-	if [ -z "$_nomakepkg_prefix_path" ]; then
++	# Flatpak exports the install directory directly.
++	if [ -n "${FLATPAK_DEST:-}" ]; then
++		pkgdir="${_prefix}"
++	elif [ -z "$_nomakepkg_prefix_path" ]; then
+ 		# if the target dir already exists, nuke it
+ 		rm -rf "$_where/non-makepkg-builds/${_nomakepkg_pkgname}"
+ 

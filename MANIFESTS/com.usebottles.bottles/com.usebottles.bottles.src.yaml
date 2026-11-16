@@ -1,0 +1,11 @@
+name: com.usebottles.bottles.src
+builddir: true
+buildsystem: meson
+sources:
+  - type: git
+    url: https://github.com/fxzxzyra/bottles-slim
+    tag: '67.4'
+    x-checker-data:
+      type: git
+      is-main-source: true
+      tag-pattern: ^((?:\d+.?){1,2})$
