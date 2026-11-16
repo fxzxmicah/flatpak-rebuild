@@ -59,7 +59,8 @@
         "/lib/pkgconfig",
         "/share/man",
         "*.a",
-        "*.la"
+        "*.la",
+        "/bin"
       ],
       "sources": [
         {
@@ -80,7 +81,8 @@
         "/share/man",
         "*.a",
         "*.la",
-        "/bin"
+        "/bin",
+        "/share/doc"
       ],
       "sources": [
         {

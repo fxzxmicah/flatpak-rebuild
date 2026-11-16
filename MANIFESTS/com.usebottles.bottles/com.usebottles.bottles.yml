@@ -147,6 +147,8 @@ modules:
   # ----------------------------------------------------------------------------
 
   - name: ImageMagick
+    cleanup:
+      - /bin/*-config
     config-opts:
       - --disable-static
       - --disable-docs

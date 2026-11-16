@@ -1,7 +1,6 @@
 name: Build and Publish Flatpak Packages
 
 on:
-  workflow_dispatch:
   push:
     paths:
       - PATCHES/**
@@ -67,14 +66,14 @@ jobs:
           test -n "${manifest}"
           echo "manifest=${manifest}" >> "${GITHUB_OUTPUT}"
 
-      - name: Import GPG
+      - name: Import key
         id: importation
         uses: crazy-max/ghaction-import-gpg@v7
         with:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
-      - name: Build package
+      - name: Build flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           manifest-path: ${{ steps.resolution.outputs.manifest }}
@@ -98,7 +97,7 @@ jobs:
       group: flatpak-oss-publish
 
     steps:
-      - name: Install tools
+      - name: Install utilities
         run: |
           sudo apt-get install -y ostree flatpak
 
@@ -107,7 +106,7 @@ jobs:
         with:
           path: sources
 
-      - name: Import GPG key
+      - name: Import key
         id: importation
         uses: crazy-max/ghaction-import-gpg@v7
         with:
@@ -126,7 +125,7 @@ jobs:
           done
           flatpak build-update-repo --gpg-sign="${SIGNING_KEY}" flatpak
 
-      - name: Setup OSS
+      - name: Setup ossutil
         id: installation
         uses: fxzxzyra/setup-ossutil@v1
         with:
@@ -136,7 +135,7 @@ jobs:
           access-key-id: ${{ secrets.ACCESSKEY_ID }}
           access-key-secret: ${{ secrets.ACCESSKEY_SECRET }}
 
-      - name: Publish to OSS
+      - name: Publish repository
         env: ${{ fromJSON(steps.installation.outputs.secrets) }}
         run: |
           cat > flatpak/github.flatpakrepo <<EOF
