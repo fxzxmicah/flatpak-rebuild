@@ -4,7 +4,7 @@ buildsystem: meson
 sources:
   - type: git
     url: https://github.com/fxzxzyra/bottles-slim
-    commit: eab481e58809470d1bef3aa6bf2ca204628f4ab7
+    commit: 0767dbc18b0542646260508f84e79e9cc6ef9ec1
     x-checker-data:
       type: git
       is-main-source: true
